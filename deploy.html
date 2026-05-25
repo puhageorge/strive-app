@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STRIVE — Deploy to Vercel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0a0a0a;--surface:#141414;--card:#1c1c1c;
+  --border:rgba(255,255,255,0.07);--gold:#C9A84C;
+  --gold-dim:rgba(201,168,76,0.12);--white:#F5F3EE;
+  --muted:#666460;--green:#1D9E75;--red:#E24B4A;
+  --blue:#378ADD;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh}
+
+nav{padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--border)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:4px;color:var(--white);text-decoration:none}
+.nav-tag{font-size:11px;color:var(--muted);letter-spacing:1px}
+
+.hero{text-align:center;padding:60px 40px 40px}
+.hero-tag{font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:16px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;margin-bottom:12px}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:14px;color:var(--muted);max-width:460px;margin:0 auto;line-height:1.7}
+
+.progress-bar{max-width:760px;margin:40px auto 0;padding:0 24px;display:flex;align-items:center;gap:0}
+.prog-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.prog-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;z-index:1}
+.prog-dot.done{background:var(--green);color:#fff;font-size:13px}
+.prog-dot.active{background:var(--gold);color:var(--black)}
+.prog-dot.pending{background:var(--card);border:0.5px solid var(--border);color:var(--muted)}
+.prog-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-align:center;white-space:nowrap}
+.prog-label.active{color:var(--gold)}
+.prog-label.done{color:var(--green)}
+.prog-line{flex:1;height:0.5px;background:var(--border);margin-top:-22px}
+.prog-line.done{background:var(--green)}
+
+.setup{max-width:760px;margin:0 auto;padding:50px 24px 80px}
+
+.phase{margin-bottom:40px}
+.phase-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--white);margin-bottom:4px;display:flex;align-items:center;gap:12px}
+.phase-badge{font-size:10px;background:var(--gold-dim);color:var(--gold);border:0.5px solid rgba(201,168,76,0.25);padding:3px 10px;border-radius:20px;letter-spacing:1px;font-family:'DM Sans',sans-serif}
+.phase-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7}
+
+.step{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:10px;display:flex;gap:16px;align-items:flex-start;transition:border-color .2s}
+.step:hover{border-color:rgba(255,255,255,0.12)}
+.step.completed{border-color:rgba(29,158,117,0.25)}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--gold-dim);border:0.5px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);flex-shrink:0;font-weight:500;cursor:pointer;transition:all .2s}
+.step.completed .step-num{background:rgba(29,158,117,0.15);border-color:rgba(29,158,117,0.3);color:var(--green)}
+.step-body{flex:1}
+.step-title{font-size:14px;font-weight:500;color:var(--white);margin-bottom:6px}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.7}
+.code-block{background:var(--black);border:0.5px solid var(--border);border-radius:8px;padding:12px 14px;font-family:monospace;font-size:12px;color:#97C459;margin-top:10px;overflow-x:auto;line-height:1.7;position:relative}
+.code-block .c{color:var(--muted)}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--card);border:0.5px solid var(--border);border-radius:4px;padding:3px 8px;font-size:10px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s}
+.copy-btn:hover{color:var(--white)}
+.inline-code{background:var(--black);border:0.5px solid var(--border);border-radius:4px;padding:2px 7px;font-family:monospace;font-size:11px;color:#97C459}
+.step-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:1px;margin-top:8px}
+.step-tag.free{background:rgba(29,158,117,0.1);color:var(--green)}
+.step-tag.required{background:rgba(201,168,76,0.1);color:var(--gold)}
+.step-tag.optional{background:rgba(102,100,96,0.1);color:var(--muted)}
+.step-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--blue);margin-top:8px;text-decoration:none;transition:opacity .2s}
+.step-link:hover{opacity:0.8}
+
+.env-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
+.env-table th{text-align:left;padding:8px 10px;background:var(--black);color:var(--muted);font-weight:400;letter-spacing:1px;font-size:10px;border-bottom:0.5px solid var(--border)}
+.env-table td{padding:8px 10px;border-bottom:0.5px solid var(--border);vertical-align:top}
+.env-table td:first-child{font-family:monospace;font-size:11px;color:#97C459;white-space:nowrap}
+.env-table td:last-child{color:var(--muted)}
+
+.checklist{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:24px;margin-bottom:40px}
+.checklist-title{font-size:12px;letter-spacing:2px;color:var(--gold);margin-bottom:16px}
+.check-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.check-box{width:18px;height:18px;border-radius:4px;border:0.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s}
+.check-item.done .check-box{background:var(--green);border-color:var(--green);color:#fff}
+.check-text{font-size:13px;color:var(--muted);transition:color .2s}
+.check-item.done .check-text{color:var(--white);text-decoration:line-through;text-decoration-color:rgba(255,255,255,0.2)}
+
+.launch-card{background:var(--card);border:0.5px solid rgba(201,168,76,0.25);border-radius:16px;padding:28px;text-align:center;margin-top:40px}
+.launch-icon{font-size:32px;margin-bottom:16px}
+.launch-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:10px}
+.launch-title em{font-style:italic;color:var(--gold)}
+.launch-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.7;max-width:400px;margin-left:auto;margin-right:auto}
+.launch-btn{display:inline-block;padding:12px 32px;background:var(--gold);color:var(--black);border-radius:8px;font-size:13px;font-weight:500;letter-spacing:1px;text-decoration:none;transition:opacity .2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.launch-btn:hover{opacity:0.85}
+
+@media(max-width:640px){
+  nav{padding:0 20px}
+  .hero{padding:40px 20px 24px}
+  .setup{padding:32px 16px 60px}
+  .progress-bar{padding:0 16px}
+  .prog-label{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">STRIVE</a>
+  <div class="nav-tag">DEPLOYMENT GUIDE</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">STEP 5 OF 5</div>
+  <h1 class="hero-title">Deploy STRIVE<br><em>to the world.</em></h1>
+  <p class="hero-sub">From files on your computer to a live app at strivehabit.com — in under 30 minutes. Free hosting on Vercel.</p>
+</div>
+
+<div class="progress-bar">
+  <div class="prog-step">
+    <div class="prog-dot done">✓</div>
+    <div class="prog-label done">APP</div>
+  </div>
+  <div class="prog-line done"></div>
+  <div class="prog-step">
+    <div class="prog-dot done">✓</div>
+    <div class="prog-label done">LANDING</div>
+  </div>
+  <div class="prog-line done"></div>
+  <div class="prog-step">
+    <div class="prog-dot done">✓</div>
+    <div class="prog-label done">PAYMENTS</div>
+  </div>
+  <div class="prog-line done"></div>
+  <div class="prog-step">
+    <div class="prog-dot done">✓</div>
+    <div class="prog-label done">AUTH</div>
+  </div>
+  <div class="prog-line done"></div>
+  <div class="prog-step">
+    <div class="prog-dot active">5</div>
+    <div class="prog-label active">DEPLOY</div>
+  </div>
+</div>
+
+<div class="setup">
+
+  <div class="checklist">
+    <div class="checklist-title">BEFORE YOU DEPLOY — CHECK THESE</div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Stripe keys replaced in STRIVE_Payments.html</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Supabase URL + key replaced in STRIVE_Auth.html</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Stripe products created ($3.60/mo, $36/yr, $99 lifetime)</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Supabase profiles table created (SQL from auth guide)</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Test payment completed with Stripe test card 4242 4242 4242 4242</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Test signup and login working in STRIVE_Auth.html</div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase">
+    <div class="phase-title">
+      Phase 1 — Set up your project structure
+      <span class="phase-badge">10 MIN</span>
+    </div>
+    <div class="phase-sub">Organise your STRIVE files into the correct folder structure so Vercel can deploy them correctly.</div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Create your project folder</div>
+        <div class="step-desc">Create a folder called <span class="inline-code">strive-app</span> on your computer. Move all 4 STRIVE files into it:</div>
+        <div class="code-block">
+strive-app/
+├── index.html          <span class="c">(rename STRIVE_Landing_Page.html)</span>
+├── app.html            <span class="c">(rename STRIVE v3 app file)</span>
+├── pricing.html        <span class="c">(rename STRIVE_Payments.html)</span>
+├── auth.html           <span class="c">(rename STRIVE_Auth.html)</span>
+└── vercel.json         <span class="c">(create this — see step 3)</span>
+        </div>
+        <div class="step-tag required">REQUIRED</div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Install Git (if you don't have it)</div>
+        <div class="step-desc">Vercel deploys from GitHub. If you don't have Git installed, download it from git-scm.com. Then open your terminal and run:</div>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">copy</button>
+git --version
+<span class="c"># Should output: git version 2.x.x</span>
+        </div>
+        <a href="https://git-scm.com/downloads" class="step-link" target="_blank">↗ Download Git</a>
+        <div class="step-tag required">REQUIRED</div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Create vercel.json config file</div>
+        <div class="step-desc">Create a file called <span class="inline-code">vercel.json</span> in your project root. This tells Vercel how to route your pages:</div>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">copy</button>{
+  "rewrites": [
+    { "source": "/app",     "destination": "/app.html" },
+    { "source": "/pricing", "destination": "/pricing.html" },
+    { "source": "/auth",    "destination": "/auth.html" },
+    { "source": "/",        "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options",        "value": "DENY" },
+        { "key": "X-XSS-Protection",       "value": "1; mode=block" }
+      ]
+    }
+  ]
+}
+        </div>
+        <div class="step-tag required">REQUIRED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase">
+    <div class="phase-title">
+      Phase 2 — Push to GitHub
+      <span class="phase-badge">5 MIN</span>
+    </div>
+    <div class="phase-sub">Vercel connects to GitHub and auto-deploys every time you push changes.</div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Create a GitHub repository</div>
+        <div class="step-desc">Go to github.com → New repository. Name it <span class="inline-code">strive-app</span>. Set it to Private. Don't add a README. Then copy the repo URL.</div>
+        <a href="https://github.com/new" class="step-link" target="_blank">↗ Create GitHub repo</a>
+        <div class="step-tag free">FREE</div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Push your files to GitHub</div>
+        <div class="step-desc">Open terminal in your <span class="inline-code">strive-app</span> folder and run:</div>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">copy</button>git init
+git add .
+git commit -m "Initial STRIVE deployment"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/strive-app.git
+git push -u origin main
+        </div>
+        <div class="step-tag required">REQUIRED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase">
+    <div class="phase-title">
+      Phase 3 — Deploy on Vercel
+      <span class="phase-badge">5 MIN</span>
+    </div>
+    <div class="phase-sub">Vercel's free Hobby plan is more than enough for STRIVE's launch. Handles up to 100GB bandwidth per month.</div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <div class="step-title">Create a free Vercel account</div>
+        <div class="step-desc">Go to vercel.com → Sign up with GitHub. This links your GitHub account so Vercel can access your repo.</div>
+        <a href="https://vercel.com/signup" class="step-link" target="_blank">↗ Sign up for Vercel</a>
+        <div class="step-tag free">FREE</div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <div class="step-title">Import your project</div>
+        <div class="step-desc">In Vercel Dashboard → Add New → Project → Import from GitHub. Select <span class="inline-code">strive-app</span>. Vercel will detect it's a static site automatically. Click Deploy — your app will be live in about 30 seconds at a <span class="inline-code">*.vercel.app</span> URL.</div>
+        <div class="step-tag required">REQUIRED</div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">8</div>
+      <div class="step-body">
+        <div class="step-title">Add your environment variables</div>
+        <div class="step-desc">In Vercel → Project Settings → Environment Variables. Add these so your secret keys stay out of your code:</div>
+        <table class="env-table">
+          <tr><th>VARIABLE</th><th>VALUE</th><th>USED IN</th></tr>
+          <tr><td>STRIPE_SECRET_KEY</td><td>sk_live_...</td><td>Webhook handler</td></tr>
+          <tr><td>STRIPE_WEBHOOK_SECRET</td><td>whsec_...</td><td>Webhook verification</td></tr>
+          <tr><td>SUPABASE_SERVICE_KEY</td><td>eyJ...</td><td>Server-side auth</td></tr>
+          <tr><td>NEXT_PUBLIC_SUPABASE_URL</td><td>https://xxx.supabase.co</td><td>Client</td></tr>
+          <tr><td>NEXT_PUBLIC_STRIPE_KEY</td><td>pk_live_...</td><td>Client payments</td></tr>
+        </table>
+        <div class="step-tag required">REQUIRED FOR PRODUCTION</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase">
+    <div class="phase-title">
+      Phase 4 — Connect your domain
+      <span class="phase-badge">10 MIN</span>
+    </div>
+    <div class="phase-sub">Replace the default vercel.app URL with your own domain. strivehabit.com or strive.app are both available.</div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">9</div>
+      <div class="step-body">
+        <div class="step-title">Buy your domain</div>
+        <div class="step-desc">Recommended domains for STRIVE and where to buy them:</div>
+        <div class="code-block">
+strivehabit.com   <span class="c">→ ~$14/yr — Namecheap or Cloudflare</span>
+strive.app      <span class="c">→ ~$14/yr — check availability</span>
+striveapp.com   <span class="c">→ ~$12/yr — fallback option</span>
+        </div>
+        <a href="https://www.namecheap.com" class="step-link" target="_blank">↗ Namecheap</a>
+        <a href="https://www.cloudflare.com/products/registrar/" class="step-link" target="_blank">↗ Cloudflare Registrar (cheapest)</a>
+        <div class="step-tag optional">OPTIONAL BUT RECOMMENDED</div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">10</div>
+      <div class="step-body">
+        <div class="step-title">Connect domain to Vercel</div>
+        <div class="step-desc">In Vercel → Project → Settings → Domains → Add domain. Vercel gives you DNS records to add at your registrar. Once added, SSL is automatic and free:</div>
+        <div class="code-block">
+<span class="c"># Add these DNS records at your domain registrar:</span>
+Type: A
+Name: @
+Value: 76.76.21.21
+
+Type: CNAME
+Name: www
+Value: cname.vercel-dns.com
+        </div>
+        <div class="step-tag required">REQUIRED FOR CUSTOM DOMAIN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase">
+    <div class="phase-title">
+      Phase 5 — Auto-deploy on every update
+      <span class="phase-badge">AUTOMATIC</span>
+    </div>
+    <div class="phase-sub">Once set up, every time you push to GitHub, Vercel deploys automatically. Your whole update flow:</div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">11</div>
+      <div class="step-body">
+        <div class="step-title">Your update workflow going forward</div>
+        <div class="step-desc">Every time you make a change to STRIVE, just run these 3 commands:</div>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">copy</button>git add .
+git commit -m "describe your change"
+git push
+<span class="c"># Vercel deploys automatically in ~15 seconds</span>
+        </div>
+        <div class="step-tag free">AUTOMATIC — NO EXTRA STEPS</div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-num">12</div>
+      <div class="step-body">
+        <div class="step-title">Set up Stripe webhook for production</div>
+        <div class="step-desc">In Stripe Dashboard → Developers → Webhooks → Add endpoint:</div>
+        <div class="code-block">
+Endpoint URL: https://strivehabit.com/api/stripe-webhook
+Events to listen for:
+  - checkout.session.completed
+  - customer.subscription.deleted
+  - customer.subscription.updated
+  - invoice.payment_failed
+        </div>
+        <div class="step-tag required">REQUIRED FOR PAYMENTS TO WORK</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="launch-card">
+    <div class="launch-icon">🚀</div>
+    <div class="launch-title">STRIVE is<br><em>live.</em></div>
+    <div class="launch-sub">You've built a full-stack SaaS app — landing page, AI-powered habit tracker, Stripe payments, user authentication, and production deployment. Time to launch.</div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="index.html" class="launch-btn">View landing page</a>
+      <button class="launch-btn" style="background:none;border:0.5px solid rgba(201,168,76,0.3);color:var(--gold)" onclick="sendPrompt('Write a Product Hunt launch post for STRIVE')">Write Product Hunt post ↗</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleStep(step) {
+  step.classList.toggle('completed');
+  const num = step.querySelector('.step-num');
+  if(step.classList.contains('completed')) {
+    num.textContent = '✓';
+  } else {
+    num.textContent = step.querySelector('.step-num').getAttribute('data-num') || num.textContent;
+  }
+}
+
+function toggleCheck(item) {
+  item.classList.toggle('done');
+}
+
+function copyCode(btn) {
+  const block = btn.closest('.code-block');
+  const text = block.innerText.replace('copy\n','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    setTimeout(() => btn.textContent = 'copy', 2000);
+  });
+}
+
+document.querySelectorAll('.step-num').forEach((num, i) => {
+  num.setAttribute('data-num', i + 1);
+});
+</script>
+</body>
+</html>
