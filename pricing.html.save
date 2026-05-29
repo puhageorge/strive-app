@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    body {background-color: #0a0a0a}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #ebe7df; -webkit-text-stroke: #ebe7df}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0000e9; -webkit-text-stroke: #32312e}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 11.0px 'Helvetica Neue'; color: #9c7623; -webkit-text-stroke: #9c7623}
+    p.p5 {margin: 0.0px 150.0px 0.0px 150.0px; text-align: center; text-indent: -150.0px; font: 14.0px 'Helvetica Neue'; color: #32312e; -webkit-text-stroke: #32312e}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #32312e; -webkit-text-stroke: #32312e}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 44.0px 'Helvetica Neue'; color: #ebe7df; -webkit-text-stroke: #ebe7df}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #32312e; -webkit-text-stroke: #32312e}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ebe7df; -webkit-text-stroke: #ebe7df; background-color: #ffffff; background-color: rgba(255, 255, 255, 0.071); min-height: 14.0px}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ebe7df; -webkit-text-stroke: #ebe7df; min-height: 14.0px}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #ebe7df; -webkit-text-stroke: #ebe7df}
+    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #0a0a0a; -webkit-text-stroke: #0a0a0a; background-color: #9c7623}
+    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #0a0a0a; -webkit-text-stroke: #0a0a0a; background-color: #9c7623}
+    p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #1b6e3e; -webkit-text-stroke: #1b6e3e; background-color: #1b6e3e; background-color: rgba(27, 110, 62, 0.12)}
+    p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 28.0px 'Helvetica Neue'; color: #ebe7df; -webkit-text-stroke: #ebe7df}
+    p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #32312e; -webkit-text-stroke: #32312e}
+    p.p17 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #9c7623; -webkit-text-stroke: #9c7623}
+    p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #ebe7df; -webkit-text-stroke: #ebe7df}
+    p.p19 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #32312e; -webkit-text-stroke: #32312e}
+    p.p20 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #65a52a; -webkit-text-stroke: #65a52a}
+    p.p21 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #65a52a; -webkit-text-stroke: #65a52a; min-height: 14.0px}
+    p.p22 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #65a52a; -webkit-text-stroke: #65a52a; background-color: #0a0a0a}
+    p.p23 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'}
+    p.p24 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #2b00d2; -webkit-text-stroke: #2b00d2}
+    p.p25 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #32312e; -webkit-text-stroke: #32312e; background-color: #0a0a0a}
+    span.s1 {font-kerning: none}
+    span.s2 {font: 12.0px 'Lucida Grande'; text-decoration: underline ; font-kerning: none}
+    span.s3 {font: 12.0px 'Helvetica Neue'; text-decoration: underline ; font-kerning: none}
+    span.s4 {font-kerning: none; color: #9c7623; -webkit-text-stroke: 0px #9c7623}
+    span.s5 {font-kerning: none; background-color: #0e0e0e}
+    span.s6 {font-kerning: none; color: #ebe7df; background-color: #0e0e0e; -webkit-text-stroke: 0px #ebe7df}
+    span.s7 {font-kerning: none; color: rgba(50, 49, 46, 0.5); background-color: #0e0e0e; -webkit-text-stroke: 0px rgba(50, 49, 46, 0.5)}
+    span.s8 {font-kerning: none; background-color: rgba(156, 118, 35, 0.12)}
+    span.s9 {font: 13.0px 'Lucida Grande'; font-kerning: none; background-color: #0e0e0e}
+    span.s10 {font: 11.0px Menlo; font-kerning: none; color: #65a52a; background-color: #0a0a0a; -webkit-text-stroke: 0px #65a52a}
+    span.s11 {font-kerning: none; background-color: #0a0a0a}
+    span.s12 {font: 12.0px Menlo; font-kerning: none; color: #65a52a; background-color: #0a0a0a; -webkit-text-stroke: 0px #65a52a}
+    span.s13 {font: 14.0px Menlo; text-decoration: underline ; font-kerning: none; color: #2b00d2; background-color: #eef2f7; -webkit-text-stroke: 0px #2b00d2}
+    span.s14 {font-kerning: none; color: #65a52a; background-color: #0a0a0a; -webkit-text-stroke: 0px #65a52a}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">STRIVE</span></p>
+<p class="p2"><span class="s2"><a href="file:///Users/georgepuha/Desktop/strive-app/index.html">←<span class="s3"> Back to home</span></a></span></p>
+<p class="p3"><span class="s1">CHOOSE YOUR PLAN</span></p>
+<h1 style="margin: 0.0px 0.0px 12.0px 0.0px; text-align: center; font: 40.0px 'Helvetica Neue'; color: #ebe7df; -webkit-text-stroke: #ebe7df"><span class="s1">Invest in the habit of<br>
+</span><span class="s4">showing up.</span></h1>
+<p class="p5"><span class="s1">No hidden charges. No pay-to-restore streaks. Cancel anytime.</span></p>
+<p class="p6"><span class="s5">FREE</span></p>
+<p class="p7"><span class="s5">$0</span></p>
+<p class="p8"><span class="s5">forever</span></p>
+<p class="p9"><span class="s1"></span><br></p>
+<p class="p8"><span class="s5">Up to 3 habits</span><span class="s6"> </span><span class="s5">7-day history</span><span class="s6"> </span><span class="s5">Basic streaks</span><span class="s6"> </span><span class="s7">No AI coach</span><span class="s6"> </span><span class="s7">No journal</span><span class="s6"> </span><span class="s7">No analytics</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p11"><span class="s5">Get started free</span></p>
+<p class="p6"><span class="s5">MONTHLY</span></p>
+<p class="p7"><span class="s5">$3.60</span></p>
+<p class="p8"><span class="s5">per month</span></p>
+<p class="p9"><span class="s1"></span><br></p>
+<p class="p8"><span class="s5">Unlimited habits</span><span class="s6"> </span><span class="s5">Full analytics</span><span class="s6"> </span><span class="s5">AI coach</span><span class="s6"> </span><span class="s5">Journal + AI insights</span><span class="s6"> </span><span class="s5">Smart reminders</span><span class="s6"> </span><span class="s5">All platforms</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p12"><span class="s1">Start monthly</span></p>
+<p class="p13"><span class="s1">BEST VALUE</span></p>
+<p class="p6"><span class="s5">YEARLY</span></p>
+<p class="p7"><span class="s5">$36</span></p>
+<p class="p8"><span class="s5">per year · $3/mo</span></p>
+<p class="p14"><span class="s1">SAVE 17%</span></p>
+<p class="p9"><span class="s1"></span><br></p>
+<p class="p8"><span class="s5">Everything in Pro</span><span class="s6"> </span><span class="s5">2 months free</span><span class="s6"> </span><span class="s5">Priority support</span><span class="s6"> </span><span class="s5">Early access features</span><span class="s6"> </span><span class="s5">Founding member badge</span><span class="s6"> </span><span class="s5"> </span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p12"><span class="s1">Get yearly</span></p>
+<p class="p6"><span class="s5">LIFETIME</span></p>
+<p class="p7"><span class="s5">$99</span></p>
+<p class="p8"><span class="s5">one-time payment</span></p>
+<p class="p9"><span class="s1"></span><br></p>
+<p class="p8"><span class="s5">Everything in Pro</span><span class="s6"> </span><span class="s5">Pay once, own forever</span><span class="s6"> </span><span class="s5">All future updates</span><span class="s6"> </span><span class="s5">Founding member status</span><span class="s6"> </span><span class="s5">Direct founder access</span><span class="s6"> </span><span class="s5"> </span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p12"><span class="s1">Own it forever</span></p>
+<p class="p15"><span class="s1">Stripe Setup Guide</span></p>
+<p class="p16"><span class="s1">Follow these steps to connect real payments. This page is fully built — you just need to plug in your Stripe keys and create your products.</span></p>
+<p class="p17"><span class="s8">1</span></p>
+<p class="p18"><span class="s5">Create a Stripe account</span></p>
+<p class="p16"><span class="s5">Go to stripe.com and sign up. It's free. Once registered, go to your Dashboard </span><span class="s9">→</span><span class="s5"> Developers </span><span class="s9">→</span><span class="s5"> API Keys and copy your </span><span class="s10">Publishable key</span><span class="s5"> and </span><span class="s10">Secret key</span><span class="s5">.</span></p>
+<p class="p17"><span class="s8">2</span></p>
+<p class="p18"><span class="s5">Create your 3 products in Stripe</span></p>
+<p class="p16"><span class="s5">In Stripe Dashboard </span><span class="s9">→</span><span class="s5"> Products </span><span class="s9">→</span><span class="s5"> Add product. Create these 3:</span></p>
+<p class="p19"><span class="s11"># Product 1</span></p>
+<p class="p20"><span class="s11">Name: STRIVE Pro Monthly</span></p>
+<p class="p20"><span class="s11">Price: $3.60 / month (recurring)</span></p>
+<p class="p21"><span class="s1"></span><br></p>
+<p class="p19"><span class="s11"># Product 2</span></p>
+<p class="p20"><span class="s11">Name: STRIVE Pro Yearly</span></p>
+<p class="p20"><span class="s11">Price: $36.00 / year (recurring)</span></p>
+<p class="p21"><span class="s1"></span><br></p>
+<p class="p19"><span class="s11"># Product 3</span></p>
+<p class="p20"><span class="s11">Name: STRIVE Lifetime</span></p>
+<p class="p22"><span class="s1">Price: $99.00 (one-time)</span></p>
+<p class="p16"><span class="s5">Copy the </span><span class="s10">Price ID</span><span class="s5"> for each product (starts with </span><span class="s10">price_</span><span class="s5">).</span></p>
+<p class="p17"><span class="s8">3</span></p>
+<p class="p18"><span class="s5">Add your Stripe keys to this file</span></p>
+<p class="p16"><span class="s5">Replace the placeholder keys in the script below:</span></p>
+<p class="p19"><span class="s11">// Replace these with your real keys:</span></p>
+<p class="p23"><span class="s12">const STRIPE_KEY = '</span>pk_live_51TazJV7qDT7H647JYgVcSw8XANv1gnjDzbECiW6zCuv8f8PiTjbTHHfIDBnkO7q2MabW21WvHkjXOP1IZGC1XpGB00JGc9DJ5c<span class="s12">';</span></p>
+<p class="p21"><span class="s1"></span><br></p>
+price_1TbQF69o5Cg1vL7MrQfWP7sS"><span class="s13">"price_1TbQF69o5Cg1vL7MrQfWP7sS"</span></a>,</span></p>
+<p class="p24"><span class="s12">  yearly:  <a href="https://dashboard.stripe.com/acct_1TazJi9o5Cg1vL7M/test/prices/price_1TbQHN9o5Cg1vL7Mjlkvhmrr"><span class="s13">"price_1TbQHN9o5Cg1vL7Mjlkvhmrr"</span></a>,</span></p>
+<p class="p24"><span class="s12">  lifetime: <a href="https://dashboard.stripe.com/acct_1TazJi9o5Cg1vL7M/test/prices/price_1TbQIX9o5Cg1vL7MwjGvV0Qz"><span class="s13">"price_1TbQIX9o5Cg1vL7MwjGvV0Qz"</span></a></span></p>
+<p class="p22"><span class="s1">};</span></p>
+<p class="p17"><span class="s8">4</span></p>
+<p class="p18"><span class="s5">Set up a backend webhook (optional but recommended)</span></p>
+<p class="p16"><span class="s5">For production, create a simple server endpoint to handle </span><span class="s10">checkout.session.completed</span><span class="s5"> webhooks so you can create user accounts automatically. Recommended: use Vercel serverless functions or Supabase Edge Functions — both are free to start.</span></p>
+<p class="p19"><span class="s11">// Vercel function: /api/stripe-webhook.js</span></p>
+<p class="p20"><span class="s11">import Stripe from 'stripe';</span></p>
+<p class="p20"><span class="s11">const stripe = new Stripe(process.env.STRIPE_SECRET);</span></p>
+<p class="p21"><span class="s1"></span><br></p>
+<p class="p20"><span class="s11">export default async (req, res) =&gt; {</span></p>
+<p class="p20"><span class="s11">  const event = stripe.webhooks.constructEvent(</span></p>
+<p class="p20"><span class="s11">    req.body, req.headers['stripe-signature'],</span></p>
+<p class="p20"><span class="s11">    process.env.STRIPE_WEBHOOK_SECRET</span></p>
+<p class="p20"><span class="s11">  );</span></p>
+<p class="p20"><span class="s11">  if(event.type === 'checkout.session.completed'){</span></p>
+<p class="p19"><span class="s14">    </span><span class="s11">// Create user account here</span></p>
+<p class="p20"><span class="s11">  }</span></p>
+<p class="p20"><span class="s11">  res.json({received: true});</span></p>
+<p class="p22"><span class="s1">}</span></p>
+<p class="p17"><span class="s8">5</span></p>
+<p class="p18"><span class="s5">Switch to Stripe Checkout (easiest production path)</span></p>
+<p class="p16"><span class="s5">For the fastest production deployment, replace the custom form with Stripe Checkout — Stripe's hosted payment page. It handles everything: card details, 3D Secure, Apple Pay, Google Pay, and receipts. One function call:</span></p>
+<p class="p19"><span class="s11">// Replace processPayment() with this:</span></p>
+<p class="p20"><span class="s11">async function stripeCheckout(plan) {</span></p>
+<p class="p20"><span class="s11">  const stripe = Stripe(STRIPE_KEY);</span></p>
+<p class="p20"><span class="s11">  await stripe.redirectToCheckout({</span></p>
+<p class="p20"><span class="s11">    lineItems: [{price: PRICE_IDS[plan], quantity: 1}],</span></p>
+<p class="p20"><span class="s11">    mode: plan==='lifetime'?'payment':'subscription',</span></p>
+<p class="p20"><span class="s11">    successUrl: 'https://strivehabit.com/welcome',</span></p>
+<p class="p20"><span class="s11">    cancelUrl: 'https://strivehabit.com/pricing',</span></p>
+<p class="p20"><span class="s11">  });</span></p>
+<p class="p22"><span class="s1">}</span></p>
+<p class="p17"><span class="s8">6</span></p>
+<p class="p18"><span class="s5">Test with Stripe test cards</span></p>
+<p class="p16"><span class="s5">Before going live, test payments using Stripe's test card numbers:</span></p>
+<p class="p20"><span class="s11">Success:     4242 4242 4242 4242</span></p>
+<p class="p20"><span class="s11">Declined:   4000 0000 0000 0002</span></p>
+<p class="p20"><span class="s11">3D Secure:  4000 0025 0000 3155</span></p>
+<p class="p25"><span class="s1">Expiry: any future date · CVC: any 3 digits</span></p>
+</body>
+</html>
