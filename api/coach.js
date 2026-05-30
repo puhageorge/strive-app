@@ -16,8 +16,7 @@ module.exports = async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+ model: 'claude-sonnet-4-5',       max_tokens: 1000,
         system: system || 'You are STRIVE, a premium AI habit coach.',
         messages: [{ role: 'user', content: prompt || 'Hello' }]
       })
