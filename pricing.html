@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STRIVE — Choose Your Plan</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://js.stripe.com/v3/"></script>
 <style>
 :root{
   --black:#0a0a0a;--surface:#141414;--card:#1c1c1c;
@@ -16,28 +15,19 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh}
 a{color:inherit;text-decoration:none}
-
-/* NAV */
 nav{padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--border)}
-.logo{font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:4px}
-.back{font-size:12px;color:var(--muted);letter-spacing:1px;display:flex;align-items:center;gap:6px;transition:color .2s}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:4px;color:var(--white)}
+.back{font-size:12px;color:var(--muted);letter-spacing:1px;transition:color .2s}
 .back:hover{color:var(--white)}
-
-/* HERO */
 .hero{text-align:center;padding:60px 40px 40px}
 .hero-tag{font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:16px}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;margin-bottom:12px}
 .hero-title em{font-style:italic;color:var(--gold)}
 .hero-sub{font-size:14px;color:var(--muted);max-width:420px;margin:0 auto;line-height:1.7}
-
-/* PLANS */
 .plans{max-width:960px;margin:0 auto;padding:40px 24px 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-
-.plan-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:28px 22px;display:flex;flex-direction:column;transition:border-color .2s;position:relative;cursor:pointer}
+.plan-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:28px 22px;display:flex;flex-direction:column;transition:border-color .2s;position:relative}
 .plan-card:hover{border-color:rgba(255,255,255,0.15)}
-.plan-card.selected{border:1.5px solid var(--gold)}
 .plan-card.featured{border:1px solid rgba(201,168,76,0.35)}
-
 .plan-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10px;background:var(--gold);color:var(--black);padding:3px 12px;border-radius:20px;letter-spacing:1px;font-weight:500}
 .plan-tier{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:12px}
 .plan-price{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--white);line-height:1}
@@ -49,94 +39,44 @@ nav{padding:0 40px;height:60px;display:flex;align-items:center;justify-content:s
 .plan-feature.missing{color:rgba(102,100,96,0.5)}
 .plan-feature.missing::before{content:'—';color:rgba(102,100,96,0.4)}
 .plan-spacer{flex:1}
-.plan-btn{margin-top:20px;padding:12px;border-radius:8px;font-size:12px;font-weight:500;letter-spacing:1px;text-align:center;cursor:pointer;border:none;transition:opacity .2s;width:100%}
+.plan-btn{margin-top:20px;padding:12px;border-radius:8px;font-size:12px;font-weight:500;letter-spacing:1px;text-align:center;cursor:pointer;border:none;transition:opacity .2s;width:100%;font-family:'DM Sans',sans-serif;display:block}
 .plan-btn.gold{background:var(--gold);color:var(--black)}
 .plan-btn.outline{background:none;border:0.5px solid rgba(255,255,255,0.2);color:var(--white)}
 .plan-btn:hover{opacity:0.85}
-.plan-btn:disabled{opacity:0.5;cursor:not-allowed}
-
-/* CHECKOUT MODAL */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;align-items:center;justify-content:center;padding:20px}
-.modal-bg.show{display:flex}
-.modal{background:var(--surface);border:0.5px solid var(--border);border-radius:20px;padding:32px;width:100%;max-width:440px}
-.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300}
-.modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1}
-.modal-close:hover{color:var(--white)}
-.order-summary{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:24px}
-.order-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:8px}
-.order-row:last-child{margin-bottom:0;padding-top:10px;border-top:0.5px solid var(--border);font-weight:500}
-.order-label{color:var(--muted)}
-.order-total{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:20px}
-
-.field-label{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:6px}
-.field-input{width:100%;background:var(--card);border:0.5px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--white);font-size:13px;margin-bottom:14px}
-.field-input:focus{outline:none;border-color:rgba(201,168,76,0.4)}
-.field-input::placeholder{color:rgba(102,100,96,0.6)}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-#card-element{background:var(--card);border:0.5px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:14px}
-#card-element.StripeElement--focus{border-color:rgba(201,168,76,0.4)}
-#card-errors{font-size:12px;color:var(--red);margin-bottom:12px;min-height:16px}
-
-.pay-btn{width:100%;padding:14px;background:var(--gold);border:none;border-radius:8px;color:var(--black);font-size:13px;font-weight:500;letter-spacing:1px;cursor:pointer;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.pay-btn:hover{opacity:0.85}
-.pay-btn:disabled{opacity:0.5;cursor:not-allowed}
-.pay-btn .spinner{width:14px;height:14px;border:2px solid rgba(10,10,10,0.3);border-top-color:var(--black);border-radius:50%;animation:spin .6s linear infinite;display:none}
-.pay-btn.loading .spinner{display:block}
-.pay-btn.loading .pay-label{display:none}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.secure-note{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;display:flex;align-items:center;justify-content:center;gap:5px}
-.secure-note svg{width:12px;height:12px;fill:var(--muted)}
-
-/* SUCCESS */
-.success-screen{display:none;text-align:center;padding:20px 0}
-.success-screen.show{display:block}
-.success-icon{width:56px;height:56px;background:rgba(29,158,117,0.15);border:0.5px solid rgba(29,158,117,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:22px}
-.success-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:10px}
-.success-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px}
-.success-btn{display:inline-block;padding:12px 28px;background:var(--gold);color:var(--black);border-radius:8px;font-size:12px;font-weight:500;letter-spacing:1px;cursor:pointer;border:none;transition:opacity .2s}
-.success-btn:hover{opacity:0.85}
-
-/* SETUP GUIDE */
-.setup{max-width:760px;margin:0 auto;padding:0 24px 80px}
-.setup-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:8px}
-.setup-sub{font-size:13px;color:var(--muted);margin-bottom:32px;line-height:1.7}
-.setup-step{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start}
-.step-num{width:28px;height:28px;border-radius:50%;background:var(--gold-dim);border:0.5px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);flex-shrink:0;font-weight:500}
-.step-content{}
-.step-title{font-size:14px;font-weight:500;color:var(--white);margin-bottom:6px}
-.step-desc{font-size:13px;color:var(--muted);line-height:1.7}
-.code-block{background:var(--black);border:0.5px solid var(--border);border-radius:8px;padding:12px 14px;font-family:monospace;font-size:12px;color:#97C459;margin-top:8px;overflow-x:auto;line-height:1.6}
-.code-block .c{color:var(--muted)}
-.inline-code{background:var(--black);border:0.5px solid var(--border);border-radius:4px;padding:2px 7px;font-family:monospace;font-size:11px;color:#97C459}
-
+.guarantee{max-width:600px;margin:0 auto;padding:0 24px 80px;text-align:center}
+.guarantee-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:12px}
+.guarantee-text{font-size:13px;color:var(--muted);line-height:1.8}
+.faq{max-width:640px;margin:0 auto;padding:0 24px 80px}
+.faq-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:24px;text-align:center}
+.faq-item{border-bottom:0.5px solid var(--border);padding:16px 0}
+.faq-q{font-size:13px;font-weight:500;color:var(--white);margin-bottom:8px}
+.faq-a{font-size:13px;color:var(--muted);line-height:1.7}
+footer{border-top:0.5px solid var(--border);padding:32px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:16px;letter-spacing:4px;color:var(--muted)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:var(--muted);transition:color .2s}
+.footer-links a:hover{color:var(--white)}
+.footer-copy{font-size:11px;color:var(--muted)}
 @media(max-width:640px){
   nav{padding:0 20px}
   .hero{padding:40px 20px 24px}
-  .plans{padding:24px 16px 60px;grid-template-columns:1fr}
-  .setup{padding:0 16px 60px}
+  .plans{padding:24px 16px 40px;grid-template-columns:1fr}
+  footer{padding:24px 20px}
 }
 </style>
 </head>
 <body>
-
 <nav>
-  <div class="logo">STRIVE</div>
+  <a href="index.html" class="logo">STRIVE</a>
   <a href="index.html" class="back">← Back to home</a>
 </nav>
-
 <div class="hero">
   <div class="hero-tag">CHOOSE YOUR PLAN</div>
   <h1 class="hero-title">Invest in the habit of<br><em>showing up.</em></h1>
   <p class="hero-sub">No hidden charges. No pay-to-restore streaks. Cancel anytime.</p>
 </div>
-
 <div class="plans">
-
-  <div class="plan-card" onclick="selectPlan(this,'free')">
+  <div class="plan-card">
     <div class="plan-tier">FREE</div>
     <div class="plan-price">$0</div>
     <div class="plan-period">forever</div>
@@ -148,10 +88,9 @@ nav{padding:0 40px;height:60px;display:flex;align-items:center;justify-content:s
     <div class="plan-feature missing">No journal</div>
     <div class="plan-feature missing">No analytics</div>
     <div class="plan-spacer"></div>
-    <button class="plan-btn outline" onclick="event.stopPropagation();startFree()">Get started free</button>
+    <a href="auth.html" class="plan-btn outline">Get started free</a>
   </div>
-
-  <div class="plan-card featured" onclick="selectPlan(this,'monthly')">
+  <div class="plan-card featured">
     <div class="plan-tier">MONTHLY</div>
     <div class="plan-price">$3.60</div>
     <div class="plan-period">per month</div>
@@ -163,10 +102,9 @@ nav{padding:0 40px;height:60px;display:flex;align-items:center;justify-content:s
     <div class="plan-feature">Smart reminders</div>
     <div class="plan-feature">All platforms</div>
     <div class="plan-spacer"></div>
-    <button class="plan-btn gold" onclick="event.stopPropagation();window.location.href='https://buy.stripe.com/7sYbIVdTH7e13pmbxBdMI00'">Start monthly</button>
+    <a href="https://buy.stripe.com/7sYbIVdTH7e13pmbxBdMI00" class="plan-btn gold">Start monthly</a>
   </div>
-
-  <div class="plan-card" onclick="selectPlan(this,'yearly')">
+  <div class="plan-card">
     <div class="plan-badge">BEST VALUE</div>
     <div class="plan-tier">YEARLY</div>
     <div class="plan-price">$36</div>
@@ -180,10 +118,9 @@ nav{padding:0 40px;height:60px;display:flex;align-items:center;justify-content:s
     <div class="plan-feature">Founding member badge</div>
     <div class="plan-feature">&nbsp;</div>
     <div class="plan-spacer"></div>
-    <button class="plan-btn gold" onclick="event.stopPropagation();window.location.href='https://buy.stripe.com/bJe4gt5nb2XLaRO315dMI01'">Get yearly</button>
+    <a href="https://buy.stripe.com/bJe4gt5nb2XLaRO315dMI01" class="plan-btn gold">Get yearly</a>
   </div>
-
-  <div class="plan-card" onclick="selectPlan(this,'lifetime')">
+  <div class="plan-card">
     <div class="plan-tier">LIFETIME</div>
     <div class="plan-price">$99</div>
     <div class="plan-period">one-time payment</div>
@@ -195,274 +132,48 @@ nav{padding:0 40px;height:60px;display:flex;align-items:center;justify-content:s
     <div class="plan-feature">Direct founder access</div>
     <div class="plan-feature">&nbsp;</div>
     <div class="plan-spacer"></div>
-    <button class="plan-btn gold" onclick="event.stopPropagation();window.location.href='https://buy.stripe.com/9B64gtg1P2XL0da59ddMI02'">Own it forever</button>
-  </div>
-
-</div>
-
-<!-- CHECKOUT MODAL -->
-<div class="modal-bg" id="modal">
-  <div class="modal">
-
-    <div id="checkout-form">
-      <div class="modal-hdr">
-        <div class="modal-title">Complete your order</div>
-        <button class="modal-close" onclick="closeCheckout()">×</button>
-      </div>
-
-      <div class="order-summary" id="order-summary"></div>
-
-      <div class="field-label">EMAIL ADDRESS</div>
-      <input type="email" class="field-input" id="email" placeholder="your@email.com"/>
-
-      <div class="field-label">CARD DETAILS</div>
-      <div id="card-element"></div>
-      <div id="card-errors"></div>
-
-      <div class="field-row">
-        <div>
-          <div class="field-label">FIRST NAME</div>
-          <input type="text" class="field-input" id="fname" placeholder="Alex"/>
-        </div>
-        <div>
-          <div class="field-label">LAST NAME</div>
-          <input type="text" class="field-input" id="lname" placeholder="Smith"/>
-        </div>
-      </div>
-
-      <button class="pay-btn" id="pay-btn" onclick="processPayment()">
-        <div class="spinner"></div>
-        <span class="pay-label" id="pay-label">Pay now</span>
-      </button>
-
-      <div class="secure-note">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-        Secured by Stripe · 256-bit SSL
-      </div>
-    </div>
-
-    <div class="success-screen" id="success-screen">
-      <div class="success-icon">✓</div>
-      <div class="success-title">Welcome to STRIVE.</div>
-      <div class="success-sub">Your account is ready. You've just made the commitment that most people never make. Now go build the life you intend to live.</div>
-      <button class="success-btn" onclick="closeCheckout()">Open STRIVE →</button>
-    </div>
-
+    <a href="https://buy.stripe.com/9B64gtg1P2XL0da59ddMI02" class="plan-btn gold">Own it forever</a>
   </div>
 </div>
-
-<!-- STRIPE SETUP GUIDE -->
-<div class="setup">
-  <div class="setup-title">Stripe Setup Guide</div>
-  <div class="setup-sub">Follow these steps to connect real payments. This page is fully built — you just need to plug in your Stripe keys and create your products.</div>
-
-  <div class="setup-step">
-    <div class="step-num">1</div>
-    <div class="step-content">
-      <div class="step-title">Create a Stripe account</div>
-      <div class="step-desc">Go to <strong>stripe.com</strong> and sign up. It's free. Once registered, go to your Dashboard → Developers → API Keys and copy your <span class="inline-code">Publishable key</span> and <span class="inline-code">Secret key</span>.</div>
-    </div>
+<div class="guarantee">
+  <div class="guarantee-title">Our promise to you</div>
+  <div class="guarantee-text">
+    No pay-to-restore streaks. No gambling mechanics. No manipulation.<br><br>
+    If you're not happy within 7 days of your first payment — email us at hello@strivehabit.com and we'll refund you in full. No questions asked.
   </div>
-
-  <div class="setup-step">
-    <div class="step-num">2</div>
-    <div class="step-content">
-      <div class="step-title">Create your 3 products in Stripe</div>
-      <div class="step-desc">In Stripe Dashboard → Products → Add product. Create these 3:</div>
-      <div class="code-block">
-        <span class="c"># Product 1</span><br>
-        Name: STRIVE Pro Monthly<br>
-        Price: $3.60 / month (recurring)<br>
-        <br>
-        <span class="c"># Product 2</span><br>
-        Name: STRIVE Pro Yearly<br>
-        Price: $36.00 / year (recurring)<br>
-        <br>
-        <span class="c"># Product 3</span><br>
-        Name: STRIVE Lifetime<br>
-        Price: $99.00 (one-time)
-      </div>
-      <div class="step-desc" style="margin-top:8px">Copy the <span class="inline-code">Price ID</span> for each product (starts with <span class="inline-code">price_</span>).</div>
-    </div>
-  </div>
-
-  <div class="setup-step">
-    <div class="step-num">3</div>
-    <div class="step-content">
-      <div class="step-title">Add your Stripe keys to this file</div>
-      <div class="step-desc">Replace the placeholder keys in the script below:</div>
-      <div class="code-block">
-        <span class="c">// Replace these with your real keys:</span><br>
-        const STRIPE_KEY = 'pk_live_YOUR_KEY_HERE';<br>
-        <br>
-        const PRICE_IDS = {<br>
-        &nbsp;&nbsp;monthly: 'price_YOUR_MONTHLY_ID',<br>
-        &nbsp;&nbsp;yearly: &nbsp;'price_YOUR_YEARLY_ID',<br>
-        &nbsp;&nbsp;lifetime:'price_YOUR_LIFETIME_ID'<br>
-        };
-      </div>
-    </div>
-  </div>
-
-  <div class="setup-step">
-    <div class="step-num">4</div>
-    <div class="step-content">
-      <div class="step-title">Set up a backend webhook (optional but recommended)</div>
-      <div class="step-desc">For production, create a simple server endpoint to handle <span class="inline-code">checkout.session.completed</span> webhooks so you can create user accounts automatically. Recommended: use <strong>Vercel serverless functions</strong> or <strong>Supabase Edge Functions</strong> — both are free to start.</div>
-      <div class="code-block">
-        <span class="c">// Vercel function: /api/stripe-webhook.js</span><br>
-        import Stripe from 'stripe';<br>
-        const stripe = new Stripe(process.env.STRIPE_SECRET);<br>
-        <br>
-        export default async (req, res) => {<br>
-        &nbsp;&nbsp;const event = stripe.webhooks.constructEvent(<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;req.body, req.headers['stripe-signature'],<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;process.env.STRIPE_WEBHOOK_SECRET<br>
-        &nbsp;&nbsp;);<br>
-        &nbsp;&nbsp;if(event.type === 'checkout.session.completed'){<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<span class="c">// Create user account here</span><br>
-        &nbsp;&nbsp;}<br>
-        &nbsp;&nbsp;res.json({received: true});<br>
-        }
-      </div>
-    </div>
-  </div>
-
-  <div class="setup-step">
-    <div class="step-num">5</div>
-    <div class="step-content">
-      <div class="step-title">Switch to Stripe Checkout (easiest production path)</div>
-      <div class="step-desc">For the fastest production deployment, replace the custom form with <strong>Stripe Checkout</strong> — Stripe's hosted payment page. It handles everything: card details, 3D Secure, Apple Pay, Google Pay, and receipts. One function call:</div>
-      <div class="code-block">
-        <span class="c">// Replace processPayment() with this:</span><br>
-        async function stripeCheckout(plan) {<br>
-        &nbsp;&nbsp;const stripe = Stripe(STRIPE_KEY);<br>
-        &nbsp;&nbsp;await stripe.redirectToCheckout({<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;lineItems: [{price: PRICE_IDS[plan], quantity: 1}],<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;mode: plan==='lifetime'?'payment':'subscription',<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;successUrl: 'https://strivehabit.com/welcome',<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;cancelUrl: 'https://strivehabit.com/pricing',<br>
-        &nbsp;&nbsp;});<br>
-        }
-      </div>
-    </div>
-  </div>
-
-  <div class="setup-step">
-    <div class="step-num">6</div>
-    <div class="step-content">
-      <div class="step-title">Test with Stripe test cards</div>
-      <div class="step-desc">Before going live, test payments using Stripe's test card numbers:</div>
-      <div class="code-block">
-        Success: &nbsp;&nbsp;&nbsp;&nbsp;4242 4242 4242 4242<br>
-        Declined: &nbsp;&nbsp;4000 0000 0000 0002<br>
-        3D Secure: &nbsp;4000 0025 0000 3155<br>
-        <span class="c">Expiry: any future date · CVC: any 3 digits</span>
-      </div>
-    </div>
-  </div>
-
 </div>
-
-<script>
-const STRIPE_KEY = 'pk_test_YOUR_PUBLISHABLE_KEY_HERE';
-const PRICE_IDS = {
-  monthly:  'price_YOUR_MONTHLY_PRICE_ID',
-  yearly:   'price_YOUR_YEARLY_PRICE_ID',
-  lifetime: 'price_YOUR_LIFETIME_PRICE_ID'
-};
-
-const PLANS = {
-  monthly:  { name:'STRIVE Pro Monthly', amount:'$3.60', period:'/month', total:'$3.60' },
-  yearly:   { name:'STRIVE Pro Yearly',  amount:'$36',   period:'/year',  total:'$36.00' },
-  lifetime: { name:'STRIVE Lifetime',    amount:'$99',   period:'one-time',total:'$99.00' }
-};
-
-let currentPlan = null;
-let stripe = null;
-let cardElement = null;
-
-try { stripe = Stripe(STRIPE_KEY); } catch(e) {}
-
-function selectPlan(card, plan) {
-  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-}
-
-function startFree() {
-  alert('Free account created! Redirecting to app...');
-}
-
-function openCheckout(plan) {
-  currentPlan = plan;
-  const p = PLANS[plan];
-  document.getElementById('order-summary').innerHTML = `
-    <div class="order-row"><span class="order-label">Plan</span><span>${p.name}</span></div>
-    <div class="order-row"><span class="order-label">Billing</span><span>${p.period}</span></div>
-    <div class="order-row"><span class="order-label">Total</span><span class="order-total">${p.total}</span></div>
-  `;
-  document.getElementById('pay-label').textContent = `Pay ${p.total}`;
-  document.getElementById('modal').classList.add('show');
-  document.getElementById('checkout-form').style.display = 'block';
-  document.getElementById('success-screen').classList.remove('show');
-  if(stripe && !cardElement) {
-    const elements = stripe.elements({ appearance: {
-      theme: 'night',
-      variables: { colorPrimary: '#C9A84C', colorBackground: '#1c1c1c', colorText: '#F5F3EE', colorDanger: '#E24B4A', fontFamily: 'DM Sans, sans-serif', borderRadius: '8px' }
-    }});
-    cardElement = elements.create('card', { style: { base: { fontSize: '13px', color: '#F5F3EE', '::placeholder': { color: '#666460' } } } });
-    cardElement.mount('#card-element');
-    cardElement.on('change', e => {
-      document.getElementById('card-errors').textContent = e.error ? e.error.message : '';
-    });
-  }
-}
-
-function closeCheckout() {
-  document.getElementById('modal').classList.remove('show');
-}
-
-async function processPayment() {
-  const btn = document.getElementById('pay-btn');
-  const email = document.getElementById('email').value.trim();
-  const fname = document.getElementById('fname').value.trim();
-  if(!email || !fname) {
-    document.getElementById('card-errors').textContent = 'Please fill in all fields.';
-    return;
-  }
-  btn.classList.add('loading');
-  btn.disabled = true;
-  if(!stripe || STRIPE_KEY.includes('YOUR_KEY')) {
-    setTimeout(() => {
-      btn.classList.remove('loading');
-      btn.disabled = false;
-      document.getElementById('checkout-form').style.display = 'none';
-      document.getElementById('success-screen').classList.add('show');
-    }, 1800);
-    return;
-  }
-  try {
-    const { error } = await stripe.confirmCardPayment('CLIENT_SECRET_FROM_SERVER', {
-      payment_method: { card: cardElement, billing_details: { name: fname + ' ' + document.getElementById('lname').value, email } }
-    });
-    if(error) {
-      document.getElementById('card-errors').textContent = error.message;
-      btn.classList.remove('loading');
-      btn.disabled = false;
-    } else {
-      document.getElementById('checkout-form').style.display = 'none';
-      document.getElementById('success-screen').classList.add('show');
-    }
-  } catch(e) {
-    document.getElementById('card-errors').textContent = 'Payment failed. Please try again.';
-    btn.classList.remove('loading');
-    btn.disabled = false;
-  }
-}
-
-document.getElementById('modal').addEventListener('click', function(e) {
-  if(e.target === this) closeCheckout();
-});
-</script>
+<div class="faq">
+  <div class="faq-title">Common questions</div>
+  <div class="faq-item">
+    <div class="faq-q">Can I cancel anytime?</div>
+    <div class="faq-a">Yes. Cancel your monthly or yearly subscription anytime from your account settings. No cancellation fees, no questions asked.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What happens to my data if I cancel?</div>
+    <div class="faq-a">Your habits and journal entries stay safe. You'll drop to the free plan (3 habits) but won't lose any of your history.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Does the Lifetime plan include future features?</div>
+    <div class="faq-a">Yes — one payment covers everything we build in the future. No additional charges ever.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Which plan is best for me?</div>
+    <div class="faq-a">If you hate subscriptions — get Lifetime at $99. If you want to try first — Monthly at $3.60 is less than a coffee. If you're committed — Yearly saves you 17%.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is my payment secure?</div>
+    <div class="faq-a">All payments are processed by Stripe — the same payment infrastructure used by Amazon, Google, and Shopify. We never see or store your card details.</div>
+  </div>
+</div>
+<footer>
+  <div class="footer-logo">STRIVE</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="app.html">App</a>
+    <a href="auth.html">Sign in</a>
+    <a href="mailto:hello@strivehabit.com">Support</a>
+  </div>
+  <div class="footer-copy">© 2026 STRIVE. All rights reserved.</div>
+</footer>
 </body>
 </html>
