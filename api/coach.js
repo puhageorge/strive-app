@@ -14,16 +14,19 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
-        system: system,
-        messages: [{ role: 'user', content: prompt }]
+        system: system || 'You are STRIVE, a premium AI habit coach.',
+        messages: [{ role: 'user', content: prompt || 'Hello' }]
       })
     });
     const data = await response.json();
-    console.log('Anthropic response:', JSON.stringify(data));
-    const text = data?.content?.[0]?.text || data?.error?.message || 'No response';
-    res.status(200).json({ text });
+    if (data.content && data.content.length > 0) {
+      return res.status(200).json({ text: data.content[0].text });
+    }
+    if (data.error) {
+      return res.status(200).json({ text: 'Error: ' + data.error.message });
+    }
+    return res.status(200).json({ text: JSON.stringify(data) });
   } catch (error) {
-    console.error('Coach error:', error);
-    res.status(500).json({ text: 'Connection error: ' + error.message });
+    return res.status(500).json({ text: 'Error: ' + error.message });
   }
 }
